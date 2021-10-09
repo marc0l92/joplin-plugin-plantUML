@@ -42,6 +42,10 @@ Rendering example:
 
 ![Rendering example](./doc/example.png)
 
+# Known issues and limitations
+
+- If you resize or modify the image while using the WYSIWYG mode you will lose the diagram definition.
+
 # Development
 
 If you want to contribute to this plugin you can find here some userful references:
