@@ -1,4 +1,3 @@
-// import * as Templater from 'templater.js'
 import { Settings } from "./settings"
 
 export class View {
@@ -10,8 +9,7 @@ export class View {
 
     renderImage(imageUrl: any): string {
         console.log('renderImage', imageUrl, this._settings)
-        // return htmlTemplate(getIssueProperties(issue, this._settings))
-        return 'renderImage: '+imageUrl
+        return `<img alt="PlantUML Diagram" src="${imageUrl}" />`
     }
 
     renderError(query: string, error: string): string {
@@ -22,22 +20,6 @@ export class View {
         //     query: query,
         //     error: error.toString(),
         // })
-        return 'renderError: '+error
+        return 'renderError: ' + error
     }
 }
-
-// const Templates = {
-//     error: `
-//         <details class="jira-issue">
-//             <summary class="flex-center">
-//                 <span class="error-circle">X</span>
-//                 <span>Error</span>
-//                 <span>:</span>
-//                 <span>{{error}}</span>
-//             </summary>
-//             <div class="flex-center">
-//                 <span><strong>Query:</strong> {{query}}</span>
-//             </div>
-//         </details>
-//     `,
-// }

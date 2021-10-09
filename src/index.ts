@@ -3,7 +3,7 @@ import { ContentScriptType } from 'api/types'
 import { ChangeEvent } from 'api/JoplinSettings'
 import { MenuItem, MenuItemLocation } from 'api/types'
 import { Settings } from './settings'
-import { PlantUmlRenderer } from './plantUmlRenderer'
+import { PlantUMLRenderer } from './plantUMLRenderer'
 import { View } from './view'
 
 
@@ -22,7 +22,7 @@ const CommandsId = {
 joplin.plugins.register({
     onStart: async function () {
         const settings = new Settings()
-        const plantUmlRenderer = new PlantUmlRenderer(settings)
+        const plantUMLRenderer = new PlantUMLRenderer(settings)
         const view = new View(settings)
 
         /**
@@ -56,7 +56,6 @@ joplin.plugins.register({
             Config.MarkdownFenceId,
             './contentScript/contentScript.js',
         )
-        console.log('Register contentScripts')
 
         /**
          * Messages handling
@@ -67,7 +66,7 @@ joplin.plugins.register({
 
             let outputHtml = ''
             try {
-                const imageUrl = await plantUmlRenderer.execute(message)
+                const imageUrl = await plantUMLRenderer.execute(message)
                 outputHtml += view.renderImage(imageUrl)
             } catch (err) {
                 outputHtml += view.renderError(message, err)

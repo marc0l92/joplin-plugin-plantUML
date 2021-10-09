@@ -1,0 +1,57 @@
+.plantUML-container {
+    color: #172b4d;
+    font-family: "Segoe UI", "Roboto", "Fira Sans", "Helvetica Neue", sans-serif;
+    font-size: 14px;
+    line-height: normal;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.plantUML-container img {
+    width: fit-content;
+    max-width: 100%;
+    height: auto;
+}
+
+/* Spinner */
+
+.plantUML-container .lds-dual-ring {
+    display: inline-block;
+    width: 1.1em;
+    height: 1.1em;
+}
+
+.plantUML-container .lds-dual-ring:after {
+    content: " ";
+    display: block;
+    width: 80%;
+    height: 80%;
+    border-radius: 50%;
+    border: 2px solid;
+    border-color: #000 transparent #000 transparent;
+    animation: lds-dual-ring 1.2s linear infinite;
+}
+
+@keyframes lds-dual-ring {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Icons */
+
+.plantUML-container .error-circle {
+    width: 1.1em;
+    height: 1.1em;
+    line-height: 1.1em;
+    background: #b60c0c;
+    border-radius: 50%;
+    border: 2px solid white;
+    color: white;
+    font-size: 1.1em;
+    text-align: center;
+}

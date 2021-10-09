@@ -1,10 +1,12 @@
-import { Settings } from "./settings"
+import { Settings, SettingDefaults } from "./settings"
+// const plantumlLocalRenderer = require('node-plantuml');
+const plantumlEncoder = require('plantuml-encoder')
 
 enum Config {
     Timeout = 5000,
 }
 
-export class PlantUmlRenderer {
+export class PlantUMLRenderer {
     private _settings: Settings
 
     constructor(settings: Settings) {
@@ -26,7 +28,23 @@ export class PlantUmlRenderer {
         return response
     }
 
+
+
     async execute(definition: string): Promise<any> {
+        let encodedDefinition
+        const renderingFormatUrl = this._settings.get('renderingFormats')
+        switch (this._settings.get('renderingType')) {
+            case 'public':
+                encodedDefinition = plantumlEncoder.encode(definition)
+                return SettingDefaults.RenderingServer + '/' + renderingFormatUrl + '/' + encodedDefinition
+            case 'private':
+                encodedDefinition = plantumlEncoder.encode(definition)
+                return this._settings.get('renderingServer') + '/' + renderingFormatUrl + '/' + encodedDefinition
+            case 'local':
+                return 'plantUML renderer local: ' + definition
+            default:
+                throw 'renderingType not implemented: ' + this._settings.get('renderingType')
+        }
         // const url: URL = new URL(this._settings.get('jiraHost') + this._settings.apiBasePath + '/issue/' + issue)
         // const requestHeaders: HeadersInit = new Headers
         // if (this._settings.get('username')) {
@@ -66,6 +84,6 @@ export class PlantUmlRenderer {
         //     }
         //     throw responseJson['errorMessages'].join('\n')
         // }
-        return 'plantUML renderer: ' + definition
+
     }
 }

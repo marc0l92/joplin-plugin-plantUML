@@ -2,8 +2,8 @@ import joplin from 'api'
 import { ChangeEvent } from 'api/JoplinSettings'
 import { SettingItem, SettingItemType } from 'api/types'
 
-const SettingDefaults = {
-    RenderingServer: 'http://www.plantuml.com/plantuml/',
+export const SettingDefaults = {
+    RenderingServer: 'http://www.plantuml.com/plantuml',
     RenderingType: { public: "Official public server", private: "Private server", local: "Offline" },
     RenderingFormats: { svg: 'Vector Image (svg)', png: 'Raster Image (png)', txt: 'AsciiArt (txt)', },
 }
@@ -60,6 +60,9 @@ export class Settings {
 
     // Checks on the settings
     private _checks = {
+        jiraHost(host: string) {
+            return host.replace(/\/$/, '')
+        },
     }
 
     // Getters

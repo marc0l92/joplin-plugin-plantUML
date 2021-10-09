@@ -6,12 +6,11 @@ const fenceNameRegExp = /1plant-?uml/i
 export default function (context) {
     return {
         plugin: function (markdownIt: MarkdownIt, _options) {
-            console.log()
             const defaultRender = markdownIt.renderer.rules.fence || function (tokens, idx, options, env, self) {
                 return self.renderToken(tokens, idx, options)
             }
 
-            return function (tokens, idx, options, env, self) {
+            markdownIt.renderer.rules.fence = function (tokens, idx, options, env, self) {
                 const token = tokens[idx]
                 console.log('token', token)
                 if (!fenceNameRegExp.test(token.info)) return defaultRender(tokens, idx, options, env, self)
@@ -29,12 +28,11 @@ export default function (context) {
                 `.replace(/"/g, '&quot;')
 
                 return `
-                <div id="plantuml-root-${randomId}" class="jira-container">
-                    <div class="jira-issue flex-center">
+                <div id="plantuml-root-${randomId}" class="plantUML-container">
+                    <div class="flex-center">
                         <div class="lds-dual-ring"></div>
                         <span>-</span>
                         <span>Rendering plantuml diagram...</span>
-                        <span class="tag tag-grey outline" title="Status">STATUS</span>
                     </div>
                 </div>
                 <style onload="${sendContentToJoplinPlugin}"></style>
