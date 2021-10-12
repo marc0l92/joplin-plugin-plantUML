@@ -31,7 +31,6 @@ export default function (context) {
                 <div id="plantuml-root-${randomId}" class="plantUML-container">
                     <div class="flex-center">
                         <div class="lds-dual-ring"></div>
-                        <span>-</span>
                         <span>Rendering plantuml diagram...</span>
                     </div>
                 </div>

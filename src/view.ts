@@ -7,19 +7,36 @@ export class View {
         this._settings = settings
     }
 
-    renderImage(imageUrl: any): string {
-        console.log('renderImage', imageUrl, this._settings)
-        return `<img alt="PlantUML Diagram" src="${imageUrl}" />`
+    renderSvg(imageData: any): string {
+        console.log('renderImage', imageData, this._settings)
+        return `<div class="flex-center"><img alt="PlantUML Diagram" src="data:image/svg+xml;base64,${imageData}" /></div>`
+    }
+
+    renderPng(imageData: any): string {
+        console.log('renderImage', imageData, this._settings)
+        return `<div class="flex-center"><img alt="PlantUML Diagram" src="data:image/png;base64,${imageData}" /></div>`
+    }
+
+    renderAsciArt(asciArt: any): string {
+        console.log('renderAsciArt', asciArt, this._settings)
+        return `<div class="flex-center"><pre>${Buffer.from(asciArt, 'base64').toString('utf-8')}</pre></div>`
+    }
+
+    render(content: string): string {
+        switch (this._settings.get('renderingFormats')) {
+            case 'svg':
+                return this.renderSvg(content)
+            case 'png':
+                return this.renderPng(content)
+            case 'txt':
+                return this.renderAsciArt(content)
+            default:
+                throw 'renderingFormat not implemented: ' + this._settings.get('renderingFormats')
+        }
     }
 
     renderError(query: string, error: string): string {
         console.log('renderError', query, error)
-        // const template = Templater(Templates.error)
-
-        // return template({
-        //     query: query,
-        //     error: error.toString(),
-        // })
-        return 'renderError: ' + error
+        return `<div class="flex-center"><span class="error-icon">X</span><span>PlantUML Error:</span><span>${error}</span></div>`
     }
 }

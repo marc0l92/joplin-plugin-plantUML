@@ -5,6 +5,7 @@ import { MenuItem, MenuItemLocation } from 'api/types'
 import { Settings } from './settings'
 import { PlantUMLRenderer } from './plantUMLRenderer'
 import { View } from './view'
+import { ObjectsCache } from './objectsCache'
 
 
 enum Config {
@@ -24,6 +25,7 @@ joplin.plugins.register({
         const settings = new Settings()
         const plantUMLRenderer = new PlantUMLRenderer(settings)
         const view = new View(settings)
+        const cache = new ObjectsCache()
 
         /**
          * Register Commands
@@ -33,6 +35,7 @@ joplin.plugins.register({
         settings.register();
         joplin.settings.onChange(async (event: ChangeEvent) => {
             await settings.read(event)
+
         })
 
         // Register command
@@ -60,14 +63,17 @@ joplin.plugins.register({
         /**
          * Messages handling
          */
-
         await joplin.contentScripts.onMessage(Config.MarkdownFenceId, async (message: string) => {
             console.log('PlantUML definition:', message)
 
             let outputHtml = ''
             try {
-                const imageUrl = await plantUMLRenderer.execute(message)
-                outputHtml += view.renderImage(imageUrl)
+                let cachedDiagram = cache.getCachedObject(message)
+                if (!cachedDiagram) {
+                    cachedDiagram = await plantUMLRenderer.execute(message)
+                    cache.addCachedObject(message, cachedDiagram)
+                }
+                outputHtml += view.render(cachedDiagram)
             } catch (err) {
                 outputHtml += view.renderError(message, err)
             }

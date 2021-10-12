@@ -60,7 +60,7 @@ export class Settings {
 
     // Checks on the settings
     private _checks = {
-        jiraHost(host: string) {
+        renderingServer(host: string) {
             return host.replace(/\/$/, '')
         },
     }

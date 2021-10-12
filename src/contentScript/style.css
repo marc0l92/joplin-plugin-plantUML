@@ -14,6 +14,20 @@
     height: auto;
 }
 
+.jira-container .flex-center {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.plantUML-container .flex-center>* {
+    margin-right: 5px;
+}
+
+.plantUML-container .flex-center>*:last-child {
+    margin-right: 0;
+}
+
 /* Spinner */
 
 .plantUML-container .lds-dual-ring {
@@ -44,14 +58,9 @@
 
 /* Icons */
 
-.plantUML-container .error-circle {
-    width: 1.1em;
-    height: 1.1em;
-    line-height: 1.1em;
+.plantUML-container .error-icon {
     background: #b60c0c;
-    border-radius: 50%;
-    border: 2px solid white;
     color: white;
-    font-size: 1.1em;
     text-align: center;
+    padding: 0 5px;
 }

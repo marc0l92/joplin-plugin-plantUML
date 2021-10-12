@@ -28,62 +28,46 @@ export class PlantUMLRenderer {
         return response
     }
 
+    async fetchBlob(url: string): Promise<string> {
+        let response: Response
+        try {
+            response = await this.fetchWithTimeout(url, {})
+        } catch (e) {
+            console.error('PlantUML::fetchBlob::error', e.name, e)
+            if (e.name === 'AbortError') {
+                throw 'Request timeout'
+            }
+            throw 'Request error'
+        }
+
+        if (response.status === 200) {
+            console.info('PlantUML::fetchBlob::response', response)
+            const arrayBuffer = await (await response.blob()).arrayBuffer()
+            return Buffer.from(arrayBuffer).toString('base64')
+        } else {
+            console.error('PlantUML::fetchBlob::error', response)
+            throw `${response.status} - ${response.statusText}`
+        }
+    }
 
 
     async execute(definition: string): Promise<any> {
-        let encodedDefinition
+        let encodedDefinition: string
+        let url: string
         const renderingFormatUrl = this._settings.get('renderingFormats')
         switch (this._settings.get('renderingType')) {
             case 'public':
                 encodedDefinition = plantumlEncoder.encode(definition)
-                return SettingDefaults.RenderingServer + '/' + renderingFormatUrl + '/' + encodedDefinition
+                url = SettingDefaults.RenderingServer + '/' + renderingFormatUrl + '/' + encodedDefinition
+                return this.fetchBlob(url)
             case 'private':
                 encodedDefinition = plantumlEncoder.encode(definition)
-                return this._settings.get('renderingServer') + '/' + renderingFormatUrl + '/' + encodedDefinition
+                url = this._settings.get('renderingServer') + '/' + renderingFormatUrl + '/' + encodedDefinition
+                return this.fetchBlob(url)
             case 'local':
                 return 'plantUML renderer local: ' + definition
             default:
                 throw 'renderingType not implemented: ' + this._settings.get('renderingType')
         }
-        // const url: URL = new URL(this._settings.get('jiraHost') + this._settings.apiBasePath + '/issue/' + issue)
-        // const requestHeaders: HeadersInit = new Headers
-        // if (this._settings.get('username')) {
-        //     requestHeaders.set('Authorization', 'Basic ' + btoa(this._settings.get('username') + ':' + this._settings.get('password')))
-        // }
-        // const options: RequestInit = {
-        //     method: 'GET',
-        //     headers: requestHeaders,
-        // }
-
-        // let response: Response
-        // try {
-        //     response = await this.fetchWithTimeout(url.toString(), options)
-        // } catch (e) {
-        //     console.error('JiraClient::getIssue::response', e.name, e)
-        //     if (e.name === 'AbortError') {
-        //         throw 'Request timeout'
-        //     }
-        //     throw 'Request error'
-        // }
-
-        // if (response.status === 200) {
-        //     // console.info('response', response)
-        //     try {
-        //         return response.json()
-        //     } catch (e) {
-        //         console.error('JiraClient::getIssue::parsing', response, e)
-        //         throw 'The API response is not a JSON. Please check the host configured in the plugin options.'
-        //     }
-        // } else {
-        //     console.error('JiraClient::getIssue::error', response)
-        //     let responseJson: any
-        //     try {
-        //         responseJson = await response.json()
-        //     } catch (e) {
-        //         throw 'HTTP status ' + response.status
-        //     }
-        //     throw responseJson['errorMessages'].join('\n')
-        // }
-
     }
 }
