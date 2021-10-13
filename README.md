@@ -2,19 +2,13 @@
 
 This plugin allows you to create UML diagrams uing the syntax defined in [https://plantuml.com](https://plantuml.com).
 
-# Install the plugin
+## 1. Install the plugin
 
 ### Automatic installation
 
-Use the Joplin plugin manager to install it:
+Use the Joplin plugin manager to install it (`Joplin > Options > Plugins`)
 
-- Start Joplin app
-- Go to `Options > Plugins`
-- Input `plantuml` to `Search for plugins` text field.
-- `Install`
-- Restart Joplin
-
-![Install plugin](./doc/install_plugin.png)
+![Plugin Install](./doc/automatic_install.png)
 
 ### Manual installation
 
@@ -22,7 +16,7 @@ Use the Joplin plugin manager to install it:
 - Open `Joplin > Options > Plugins > Install from File`
 - Select the jpl file you downloaded.
 
-# Markdown syntax
+# 2. Markdown syntax
 
 Use the markdown fence syntax to create a new PlantUML diagram.
 
@@ -42,12 +36,16 @@ Rendering example:
 
 ![Rendering example](./doc/example.png)
 
-# Known issues and limitations
+## Menu shortcuts
+If you don't remember the syntax to create a PlantUML diagram you can use the templates in the tools menu
 
-- If you resize or modify the image while using the WYSIWYG mode you will lose the diagram definition.
+![Tools Menu](./doc/tools_menu.png)
+
+## Extra hints
+- The tag name is case insensitive
+- This plugin is not compatible with WYSIWYG editor
 
 # Development
-
 If you want to contribute to this plugin you can find here some userful references:
 
 - [Joplin - Getting started with plugin development](https://joplinapp.org/api/get_started/plugins/)
