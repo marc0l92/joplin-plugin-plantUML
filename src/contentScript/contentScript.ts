@@ -1,7 +1,7 @@
 import * as MarkdownIt from "markdown-it"
 import crypto = require('crypto')
 
-const fenceNameRegExp = /1plant-?uml/i
+const fenceNameRegExp = /plant-?uml/i
 
 export default function (context) {
     return {
@@ -12,7 +12,7 @@ export default function (context) {
 
             markdownIt.renderer.rules.fence = function (tokens, idx, options, env, self) {
                 const token = tokens[idx]
-                console.log('token', token)
+                // console.log('token', token)
                 if (!fenceNameRegExp.test(token.info)) return defaultRender(tokens, idx, options, env, self)
 
                 const randomId = crypto.randomBytes(8).toString('hex')

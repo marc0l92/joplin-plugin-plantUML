@@ -9,7 +9,7 @@ import { ObjectsCache } from './objectsCache'
 
 
 enum Config {
-    MarkdownFenceId = '1plantuml',
+    MarkdownFenceId = 'plantuml',
 }
 
 const Templates = {

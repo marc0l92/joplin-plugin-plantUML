@@ -10,14 +10,14 @@ export class View {
     renderSvg(diagram: Diagram): string {
         console.log('renderImage', diagram, this._settings)
         return `<div class="flex-center">
-                    <img alt="PlantUML Diagram" src="data:image/svg+xml;base64,${diagram.blob}" data-url="${diagram.url}" data-blob="${diagram.blob}" data-type="image/svg+xml" />
+                    <img alt="PlantUML Diagram" src="data:image/svg+xml;base64,${diagram.blob}" data-url="${diagram.url}" data-image-url="${diagram.imageUrl}" />
                 </div>`
     }
 
     renderPng(diagram: Diagram): string {
         console.log('renderImage', diagram, this._settings)
         return `<div class="flex-center">
-                    <img alt="PlantUML Diagram" src="data:image/png;base64,${diagram.blob}" data-url="${diagram.url}" data-blob="${diagram.blob}" data-type="image/png" />
+                    <img alt="PlantUML Diagram" src="data:image/png;base64,${diagram.blob}" data-url="${diagram.url}" data-image-url="${diagram.imageUrl}" />
                 </div>`
     }
 

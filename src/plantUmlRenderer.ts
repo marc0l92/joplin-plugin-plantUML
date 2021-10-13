@@ -54,16 +54,19 @@ export class PlantUMLRenderer {
     async execute(definition: string): Promise<Diagram> {
         let encodedDefinition: string
         let url: string
+        let imageUrl: string
         const renderingFormatUrl = this._settings.get('renderingFormats')
         switch (this._settings.get('renderingType')) {
             case 'public':
                 encodedDefinition = plantumlEncoder.encode(definition)
                 url = SettingDefaults.RenderingServer + '/' + renderingFormatUrl + '/' + encodedDefinition
-                return { url: url, blob: await this.fetchBlob(url) }
+                imageUrl = SettingDefaults.RenderingServer + '/png/' + encodedDefinition
+                return { url: url, blob: await this.fetchBlob(url), imageUrl: imageUrl }
             case 'private':
                 encodedDefinition = plantumlEncoder.encode(definition)
                 url = this._settings.get('renderingServer') + '/' + renderingFormatUrl + '/' + encodedDefinition
-                return { url: url, blob: await this.fetchBlob(url) }
+                imageUrl = this._settings.get('renderingServer') + '/png/' + encodedDefinition
+                return { url: url, blob: await this.fetchBlob(url), imageUrl: imageUrl }
             case 'local':
                 throw 'Offline rendering not implemented yet'
             default:

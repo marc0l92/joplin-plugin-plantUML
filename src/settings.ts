@@ -5,7 +5,7 @@ import { SettingItem, SettingItemType } from 'api/types'
 export interface Diagram {
     url: string,
     blob: string,
-    html?: string,
+    imageUrl: string,
 }
 
 interface SettingsConfig {
