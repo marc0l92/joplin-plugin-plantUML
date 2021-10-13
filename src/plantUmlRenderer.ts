@@ -40,7 +40,7 @@ export class PlantUMLRenderer {
             throw 'Request error'
         }
 
-        if (response.status === 200) {
+        if (response.status === 200 || response.status === 400) {
             console.info('PlantUML::fetchBlob::response', response)
             const arrayBuffer = await (await response.blob()).arrayBuffer()
             return Buffer.from(arrayBuffer).toString('base64')
@@ -65,7 +65,7 @@ export class PlantUMLRenderer {
                 url = this._settings.get('renderingServer') + '/' + renderingFormatUrl + '/' + encodedDefinition
                 return this.fetchBlob(url)
             case 'local':
-                return 'plantUML renderer local: ' + definition
+                throw 'Offline rendering not implemented yet'
             default:
                 throw 'renderingType not implemented: ' + this._settings.get('renderingType')
         }
