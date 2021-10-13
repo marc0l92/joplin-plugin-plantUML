@@ -19,6 +19,9 @@ Use the Joplin plugin manager to install it (`Joplin > Options > Plugins`)
 # 2. Markdown syntax
 
 Use the markdown fence syntax to create a new PlantUML diagram.
+Inside this block you can use the syntax documented at [https://plantuml.com](https://plantuml.com).
+
+## Sequence Diagram Example
 
 Syntax example:
 
@@ -34,7 +37,39 @@ Syntax example:
 
 Rendering example:
 
-![Rendering example](./doc/example.png)
+![Rendering example](./doc/example_sequence.png)
+
+## MindMap Diagram Example
+
+Syntax example:
+
+    ```plantuml
+    @startmindmap
+    * Debian
+    ** Ubuntu
+    *** Linux Mint
+    *** Kubuntu
+    *** Lubuntu
+    *** KDE Neon
+    ** LMDE
+    ** SolydXK
+    ** SteamOS
+    ** Raspbian with a very long name
+    *** <s>Raspmbc</s> => OSMC
+    *** <s>Raspyfi</s> => Volumio
+    @endmindmap
+    ```
+
+Rendering example:
+
+![Rendering example](./doc/example_mindmap.png)
+
+# Other funcitonalities
+
+## Context menu
+Use the context menu on the rendered diagram to copy the image or the url.
+
+![Context Menu](./doc/context_menu.png)
 
 ## Menu shortcuts
 If you don't remember the syntax to create a PlantUML diagram you can use the templates in the tools menu
