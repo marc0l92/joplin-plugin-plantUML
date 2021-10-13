@@ -76,6 +76,11 @@ If you don't remember the syntax to create a PlantUML diagram you can use the te
 
 ![Tools Menu](./doc/tools_menu.png)
 
+## Options
+Use the plugin's options to define the rendering server and the output format.
+
+![Options](./doc/options.png)
+
 ## Extra hints
 - The tag name is case insensitive
 - This plugin is not compatible with WYSIWYG editor
