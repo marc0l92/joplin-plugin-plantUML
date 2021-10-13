@@ -2,14 +2,20 @@ import joplin from 'api'
 import { ChangeEvent } from 'api/JoplinSettings'
 import { SettingItem, SettingItemType } from 'api/types'
 
-export const SettingDefaults = {
-    RenderingServer: 'http://www.plantuml.com/plantuml',
-    RenderingType: { public: "Official public server", private: "Private server", local: "Offline" },
-    RenderingFormats: { svg: 'Vector Image (svg)', png: 'Raster Image (png)', txt: 'AsciiArt (txt)', },
+export interface Diagram {
+    url: string,
+    blob: string,
+    html?: string,
 }
 
 interface SettingsConfig {
     [key: string]: SettingItem,
+}
+
+export const SettingDefaults = {
+    RenderingServer: 'http://www.plantuml.com/plantuml',
+    RenderingType: { public: "Official public server", private: "Private server", local: "Offline" },
+    RenderingFormats: { svg: 'Vector Image (svg)', png: 'Raster Image (png)', txt: 'AsciiArt (txt)', },
 }
 
 export class Settings {

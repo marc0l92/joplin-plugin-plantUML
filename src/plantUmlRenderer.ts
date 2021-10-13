@@ -1,4 +1,4 @@
-import { Settings, SettingDefaults } from "./settings"
+import { Settings, SettingDefaults, Diagram } from "./settings"
 // const plantumlLocalRenderer = require('node-plantuml');
 const plantumlEncoder = require('plantuml-encoder')
 
@@ -51,7 +51,7 @@ export class PlantUMLRenderer {
     }
 
 
-    async execute(definition: string): Promise<any> {
+    async execute(definition: string): Promise<Diagram> {
         let encodedDefinition: string
         let url: string
         const renderingFormatUrl = this._settings.get('renderingFormats')
@@ -59,11 +59,11 @@ export class PlantUMLRenderer {
             case 'public':
                 encodedDefinition = plantumlEncoder.encode(definition)
                 url = SettingDefaults.RenderingServer + '/' + renderingFormatUrl + '/' + encodedDefinition
-                return this.fetchBlob(url)
+                return { url: url, blob: await this.fetchBlob(url) }
             case 'private':
                 encodedDefinition = plantumlEncoder.encode(definition)
                 url = this._settings.get('renderingServer') + '/' + renderingFormatUrl + '/' + encodedDefinition
-                return this.fetchBlob(url)
+                return { url: url, blob: await this.fetchBlob(url) }
             case 'local':
                 throw 'Offline rendering not implemented yet'
             default:

@@ -2,7 +2,7 @@ import joplin from 'api'
 import { ContentScriptType } from 'api/types'
 import { ChangeEvent } from 'api/JoplinSettings'
 import { MenuItem, MenuItemLocation } from 'api/types'
-import { Settings } from './settings'
+import { Settings, Diagram } from './settings'
 import { PlantUMLRenderer } from './plantUMLRenderer'
 import { View } from './view'
 import { ObjectsCache } from './objectsCache'
@@ -68,12 +68,12 @@ joplin.plugins.register({
 
             let outputHtml = ''
             try {
-                let cachedDiagram = cache.getCachedObject(message)
-                if (!cachedDiagram) {
-                    cachedDiagram = await plantUMLRenderer.execute(message)
-                    cache.addCachedObject(message, cachedDiagram)
+                let diagram: Diagram = cache.getCachedObject(message)
+                if (!diagram) {
+                    diagram = await plantUMLRenderer.execute(message)
+                    cache.addCachedObject(message, diagram)
                 }
-                outputHtml += view.render(cachedDiagram)
+                outputHtml += view.render(diagram)
             } catch (err) {
                 outputHtml += view.renderError(message, err)
             }

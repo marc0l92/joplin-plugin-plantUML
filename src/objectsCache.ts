@@ -1,8 +1,8 @@
-import { Settings } from "./settings"
+import { Diagram } from "./settings"
 
 interface Cache {
     [key: string]: {
-        data: any,
+        data: Diagram,
     }
 }
 
@@ -13,13 +13,13 @@ export class ObjectsCache {
         this._cache = {}
     }
 
-    addCachedObject(key: string, object: any) {
+    addCachedObject(key: string, object: Diagram) {
         this._cache[key] = {
             data: object,
         }
     }
 
-    getCachedObject(key: string) {
+    getCachedObject(key: string): Diagram {
         if (key in this._cache) {
             return this._cache[key].data
         }

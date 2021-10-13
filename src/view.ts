@@ -1,4 +1,4 @@
-import { Settings } from "./settings"
+import { Settings, Diagram } from "./settings"
 
 export class View {
     private _settings: Settings
@@ -7,22 +7,26 @@ export class View {
         this._settings = settings
     }
 
-    renderSvg(imageData: any): string {
-        console.log('renderImage', imageData, this._settings)
-        return `<div class="flex-center"><img alt="PlantUML Diagram" src="data:image/svg+xml;base64,${imageData}" /></div>`
+    renderSvg(diagram: Diagram): string {
+        console.log('renderImage', diagram, this._settings)
+        return `<div class="flex-center">
+                    <img alt="PlantUML Diagram" src="data:image/svg+xml;base64,${diagram.blob}" data-url="${diagram.url}" data-blob="${diagram.blob}" data-type="image/svg+xml" />
+                </div>`
     }
 
-    renderPng(imageData: any): string {
-        console.log('renderImage', imageData, this._settings)
-        return `<div class="flex-center"><img alt="PlantUML Diagram" src="data:image/png;base64,${imageData}" /></div>`
+    renderPng(diagram: Diagram): string {
+        console.log('renderImage', diagram, this._settings)
+        return `<div class="flex-center">
+                    <img alt="PlantUML Diagram" src="data:image/png;base64,${diagram.blob}" data-url="${diagram.url}" data-blob="${diagram.blob}" data-type="image/png" />
+                </div>`
     }
 
-    renderAsciArt(asciArt: any): string {
-        console.log('renderAsciArt', asciArt, this._settings)
-        return `<div class="flex-center"><pre>${Buffer.from(asciArt, 'base64').toString('utf-8')}</pre></div>`
+    renderAsciArt(diagram: Diagram): string {
+        console.log('renderAsciArt', diagram, this._settings)
+        return `<div class="flex-center"><pre>${Buffer.from(diagram.blob, 'base64').toString('utf-8')}</pre></div>`
     }
 
-    render(content: string): string {
+    render(content: Diagram): string {
         switch (this._settings.get('renderingFormats')) {
             case 'svg':
                 return this.renderSvg(content)
