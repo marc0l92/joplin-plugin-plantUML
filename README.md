@@ -1,4 +1,4 @@
-# Joplin Plugin - PlantUML
+# Joplin Plugin - PlantUML2
 
 This plugin allows you to create UML diagrams uing the syntax defined in [https://plantuml.com](https://plantuml.com).
 
@@ -6,7 +6,8 @@ This plugin allows you to create UML diagrams uing the syntax defined in [https:
 
 ### Automatic installation
 
-Use the Joplin plugin manager to install it (`Joplin > Options > Plugins`)
+Use the Joplin plugin manager to install it (`Joplin > Options > Plugins`).
+Search for `PlantUML2`.
 
 ![Plugin Install](./doc/automatic_install.png)
 
