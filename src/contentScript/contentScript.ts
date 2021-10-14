@@ -25,8 +25,8 @@ export default function (context) {
                 document.getElementById('plantuml-body-${randomId}').addEventListener('mousedown', e => {
                     const menu = document.getElementById('plantuml-menu-${randomId}');
                     if(e.target && e.target.nodeName === 'IMG') {
-                        menu.style.left = e.pageX+'px';
-                        menu.style.top = e.pageY+'px';
+                        // menu.style.left = e.pageX+'px';
+                        // menu.style.top = e.pageY+'px';
                         menu.style.display = '';
                     } else {
                         menu.style.display = 'none';
