@@ -14,7 +14,7 @@ interface SettingsConfig {
 
 export const SettingDefaults = {
     RenderingServer: 'http://www.plantuml.com/plantuml',
-    RenderingType: { public: "Official public server", private: "Private server", local: "Offline" },
+    RenderingType: { public: "Official public server", private: "Private server" },
     RenderingFormats: { svg: 'Vector Image (svg)', png: 'Raster Image (png)', txt: 'AsciiArt (txt)', },
 }
 
@@ -31,7 +31,7 @@ export class Settings {
             isEnum: true,
             options: SettingDefaults.RenderingType,
             label: 'Rendering: Type',
-            description: 'Type of renderer used to parse the PlantUML syntax and create the image. ' + SettingDefaults.RenderingType.public + ': ' + SettingDefaults.RenderingServer + ' ; ' + SettingDefaults.RenderingType.private + ': Host taken from the next option ; ' + SettingDefaults.RenderingType.local + ': Uses node-plantuml library',
+            description: 'Type of renderer used to parse the PlantUML syntax and create the image. ' + SettingDefaults.RenderingType.public + ': ' + SettingDefaults.RenderingServer + ' ; ' + SettingDefaults.RenderingType.private + ': Host taken from the next option',
         },
         renderingServer: {
             value: SettingDefaults.RenderingServer,
@@ -53,15 +53,6 @@ export class Settings {
             label: 'Rendering: Output image format',
             description: 'Type of image format generated while rendering the diagram.',
         },
-        // searchTemplate: {
-        //     value: SettingDefaults.SearchTemplate,
-        //     type: SettingItemType.String,
-        //     section: 'plantUML.settings',
-        //     public: true,
-        //     advanced: true,
-        //     label: 'Rendering: Search display template',
-        //     description: 'Column to display in the jira-search table',
-        // },
     }
 
     // Checks on the settings

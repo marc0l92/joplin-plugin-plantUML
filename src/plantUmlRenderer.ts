@@ -1,5 +1,4 @@
 import { Settings, SettingDefaults, Diagram } from "./settings"
-// const plantumlLocalRenderer = require('node-plantuml');
 const plantumlEncoder = require('plantuml-encoder')
 
 enum Config {
@@ -67,8 +66,6 @@ export class PlantUMLRenderer {
                 url = this._settings.get('renderingServer') + '/' + renderingFormatUrl + '/' + encodedDefinition
                 imageUrl = this._settings.get('renderingServer') + '/png/' + encodedDefinition
                 return { url: url, blob: await this.fetchBlob(url), imageUrl: imageUrl }
-            case 'local':
-                throw 'Offline rendering not implemented yet'
             default:
                 throw 'renderingType not implemented: ' + this._settings.get('renderingType')
         }
