@@ -1,7 +1,7 @@
 import * as MarkdownIt from "markdown-it"
 import crypto = require('crypto')
 
-const fenceNameRegExp = /plant-?uml/i
+const fenceNameRegExp = /^plant-?uml$/i
 
 export default function (context) {
     return {
