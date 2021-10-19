@@ -8,7 +8,7 @@ export interface Diagram {
     imageUrl: string,
 }
 
-interface SettingsConfig {
+interface SettingItems {
     [key: string]: SettingItem,
 }
 
@@ -21,7 +21,7 @@ export const SettingDefaults = {
 export class Settings {
 
     // Settings definitions
-    private _config: SettingsConfig = {
+    private _config: SettingItems = {
         renderingType: {
             value: Object.keys(SettingDefaults.RenderingType)[0],
             type: SettingItemType.String,
@@ -52,6 +52,15 @@ export class Settings {
             options: SettingDefaults.RenderingFormats,
             label: 'Rendering: Output image format',
             description: 'Type of image format generated while rendering the diagram.',
+        },
+        diagramHeaderFile: {
+            value: '',
+            type: SettingItemType.String,
+            section: 'plantUML.settings',
+            public: true,
+            advanced: false,
+            label: 'Diagram: Header file',
+            description: 'Path to the file containing the diagram header. The content of this file will be injected at the begin of each plantUML diagram in your notes.',
         },
     }
 

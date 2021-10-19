@@ -6,10 +6,12 @@ import { Settings, Diagram } from './settings'
 import { PlantUMLRenderer } from './plantUMLRenderer'
 import { View } from './view'
 import { ObjectsCache } from './objectsCache'
+const fs = joplin.require('fs-extra')
 
 
 enum Config {
     MarkdownFenceId = 'plantuml',
+    FileReadBufferSize = 1000,
 }
 
 const Templates = {
@@ -18,6 +20,31 @@ const Templates = {
 
 const CommandsId = {
     Fence: 'plantUML-fenceTemplate',
+}
+
+function addDiagramHeader(diagram: string, header: string): string {
+    if (diagram[0] === '@') {
+        const endOfFirstLine = diagram.indexOf('\n') + 1
+        return diagram.slice(0, endOfFirstLine) + header + '\n' + diagram.slice(endOfFirstLine)
+    } else {
+        return header + '\n' + diagram
+    }
+}
+
+async function readFileContent(filename: string): Promise<string> {
+    let content = ''
+    try {
+        const fd = await fs.open(filename, 'r')
+        let readBuffer = Buffer.alloc(Config.FileReadBufferSize)
+        let bytesRead, buffer
+        do {
+            ({ bytesRead, buffer } = await fs.read(fd, readBuffer, 0, readBuffer.byteLength, null))
+            content += readBuffer.toString('utf-8', 0, bytesRead)
+        } while (bytesRead == Config.FileReadBufferSize)
+    } catch (e) {
+        console.error('DiagramHeader file reading error:', e)
+    }
+    return content
 }
 
 joplin.plugins.register({
@@ -64,10 +91,12 @@ joplin.plugins.register({
          * Messages handling
          */
         await joplin.contentScripts.onMessage(Config.MarkdownFenceId, async (message: string) => {
-            console.log('PlantUML definition:', message)
+            // console.log('PlantUML definition:', message)
 
             let outputHtml = ''
             try {
+                const diagramHeader = await readFileContent(settings.get('diagramHeaderFile'))
+                message = addDiagramHeader(message, diagramHeader)
                 let diagram: Diagram = cache.getCachedObject(message)
                 if (!diagram) {
                     diagram = await plantUMLRenderer.execute(message)
