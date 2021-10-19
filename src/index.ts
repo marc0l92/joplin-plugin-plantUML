@@ -33,16 +33,18 @@ function addDiagramHeader(diagram: string, header: string): string {
 
 async function readFileContent(filename: string): Promise<string> {
     let content = ''
-    try {
-        const fd = await fs.open(filename, 'r')
-        let readBuffer = Buffer.alloc(Config.FileReadBufferSize)
-        let bytesRead, buffer
-        do {
-            ({ bytesRead, buffer } = await fs.read(fd, readBuffer, 0, readBuffer.byteLength, null))
-            content += readBuffer.toString('utf-8', 0, bytesRead)
-        } while (bytesRead == Config.FileReadBufferSize)
-    } catch (e) {
-        console.error('DiagramHeader file reading error:', e)
+    if (filename) {
+        try {
+            const fd = await fs.open(filename, 'r')
+            let readBuffer = Buffer.alloc(Config.FileReadBufferSize)
+            let bytesRead, buffer
+            do {
+                ({ bytesRead, buffer } = await fs.read(fd, readBuffer, 0, readBuffer.byteLength, null))
+                content += readBuffer.toString('utf-8', 0, bytesRead)
+            } while (bytesRead == Config.FileReadBufferSize)
+        } catch (e) {
+            console.error('DiagramHeader file reading error:', e)
+        }
     }
     return content
 }
