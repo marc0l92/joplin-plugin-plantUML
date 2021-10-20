@@ -6,6 +6,7 @@ import { Settings, Diagram } from './settings'
 import { PlantUMLRenderer } from './plantUMLRenderer'
 import { View } from './view'
 import { ObjectsCache } from './objectsCache'
+import { resolve } from 'path'
 const fs = joplin.require('fs-extra')
 
 
@@ -35,13 +36,8 @@ async function readFileContent(filename: string): Promise<string> {
     let content = ''
     if (filename) {
         try {
-            const fd = await fs.open(filename, 'r')
-            let readBuffer = Buffer.alloc(Config.FileReadBufferSize)
-            let bytesRead, buffer
-            do {
-                ({ bytesRead, buffer } = await fs.read(fd, readBuffer, 0, readBuffer.byteLength, null))
-                content += readBuffer.toString('utf-8', 0, bytesRead)
-            } while (bytesRead == Config.FileReadBufferSize)
+            const absolutePath = resolve(filename)
+            content = await fs.readFile(absolutePath, 'utf8')
         } catch (e) {
             console.error('DiagramHeader file reading error:', e)
         }
