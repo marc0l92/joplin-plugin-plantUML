@@ -96,7 +96,7 @@ export class Settings {
         await joplin.settings.registerSettings(this._config)
 
         // Initially read settings
-        await this.read();
+        await this.read()
     }
 
     // Get setting on change
@@ -104,7 +104,7 @@ export class Settings {
         if (!event || event.keys.includes(setting)) {
             return await joplin.settings.value(setting)
         }
-        return localVar;
+        return localVar
     }
 
     // Store settings on change
