@@ -1,9 +1,13 @@
 import * as MarkdownIt from "markdown-it"
 import crypto = require('crypto')
+import { tmpdir } from 'os'
+import { sep } from 'path'
+
+const diagramsTempDir = `${tmpdir}${sep}joplin-plantUml2-plugin${sep}`
 
 const fenceNameRegExp = /^plant-?uml$/i
 
-export default function (context) {
+export default function (context: { contentScriptId: string }) {
     return {
         plugin: function (markdownIt: MarkdownIt, _options) {
             const defaultRender = markdownIt.renderer.rules.fence || function (tokens, idx, options, env, self) {
@@ -15,25 +19,23 @@ export default function (context) {
                 // console.log('token', token)
                 if (!fenceNameRegExp.test(token.info)) return defaultRender(tokens, idx, options, env, self)
 
-                const randomId = crypto.randomBytes(8).toString('hex')
-                // console.log(`plantuml[${randomId}] render markdown-it plugin`)
+                const diagramId = crypto.createHash('sha1').update(token.content).digest('hex')
+                // console.log(`plantuml[${diagramId}] render markdown-it plugin`)
 
-                const content = JSON.stringify(token.content)
+                const pluginRequest = JSON.stringify({ content: token.content, id: diagramId })
 
                 const sendContentToJoplinPlugin = `
                 // Configure context menu
-                document.getElementById('plantuml-body-${randomId}').addEventListener('mousedown', e => {
-                    const menu = document.getElementById('plantuml-menu-${randomId}');
+                document.getElementById('plantuml-body-${diagramId}').addEventListener('mousedown', e => {
+                    const menu = document.getElementById('plantuml-menu-${diagramId}');
                     if(e.target && e.target.nodeName === 'IMG') {
-                        // menu.style.left = e.pageX+'px';
-                        // menu.style.top = e.pageY+'px';
                         menu.style.display = '';
                     } else {
                         menu.style.display = 'none';
                     }
                 });
-                document.getElementById('plantuml-menu-${randomId}-copyImage').addEventListener('click', async e => {
-                    const img = document.querySelector("#plantuml-body-${randomId} img");
+                document.getElementById('plantuml-menu-${diagramId}-copyImage').addEventListener('click', async e => {
+                    const img = document.querySelector("#plantuml-body-${diagramId} img");
                     if(img) {
                         const response = await fetch(img.dataset.imageUrl);
                         navigator.clipboard.write([
@@ -41,29 +43,29 @@ export default function (context) {
                         ]);
                     }
                 });
-                document.getElementById('plantuml-menu-${randomId}-copyImageAddress').addEventListener('click', e => {
-                    const img = document.querySelector("#plantuml-body-${randomId} img");
+                document.getElementById('plantuml-menu-${diagramId}-copyImageAddress').addEventListener('click', e => {
+                    const img = document.querySelector("#plantuml-body-${diagramId} img");
                     if(img) {
                         navigator.clipboard.writeText(img.dataset.url);
                     }
                 });
 
                 // Send fence content to plugin
-                webviewApi.postMessage('${context.contentScriptId}', ${content}).then((response) => {
-                    document.getElementById('plantuml-body-${randomId}').innerHTML = response;
+                webviewApi.postMessage('${context.contentScriptId}', ${pluginRequest}).then((response) => {
+                   document.getElementById('plantuml-body-${diagramId}').innerHTML = response;
                 });
                 `.replace(/"/g, '&quot;')
 
                 return `
-                <div id="plantuml-root-${randomId}" class="plantUML-container" tabindex="-1">
-                    <div id="plantuml-body-${randomId}" class="flex-center">
-                        <div class="lds-dual-ring"></div>
-                        <span>Rendering plantuml diagram...</span>
+                <div id="plantuml-root-${diagramId}" class="plantUML-container" tabindex="-1">
+                    <div id="plantuml-body-${diagramId}" class="flex-center">
+                        <object data="${diagramsTempDir}${diagramId}.svg" type="image/svg+xml"></object>
+                        <object data="${diagramsTempDir}${diagramId}.png" type="image/png"></object>
                     </div>
-                    <div id="plantuml-menu-${randomId}" class="menu">
+                    <div id="plantuml-menu-${diagramId}" class="menu">
                         <ul class="menu-options">
-                            <li class="menu-option"><button id="plantuml-menu-${randomId}-copyImage">Copy image</button></li>
-                            <li class="menu-option"><button id="plantuml-menu-${randomId}-copyImageAddress">Copy image address</button></li>
+                            <li class="menu-option"><button id="plantuml-menu-${diagramId}-copyImage">Copy image</button></li>
+                            <li class="menu-option"><button id="plantuml-menu-${diagramId}-copyImageAddress">Copy image address</button></li>
                         </ul>
                     </div>
                 </div>

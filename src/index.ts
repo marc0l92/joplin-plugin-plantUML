@@ -7,12 +7,14 @@ import { PlantUMLRenderer } from './plantUMLRenderer'
 import { View } from './view'
 import { ObjectsCache } from './objectsCache'
 import { resolve } from 'path'
+import { tmpdir } from 'os'
+import { sep } from 'path'
 const fs = joplin.require('fs-extra')
 
 
-enum Config {
-    MarkdownFenceId = 'plantuml',
-    FileReadBufferSize = 1000,
+const Config = {
+    MarkdownFenceId: 'plantuml',
+    DiagramsCacheFolder: `${tmpdir}${sep}joplin-plantUml2-plugin${sep}`,
 }
 
 const Templates = {
@@ -21,6 +23,11 @@ const Templates = {
 
 const CommandsId = {
     Fence: 'plantUML-fenceTemplate',
+}
+
+function clearDiskCache(): void {
+    fs.rmdirSync(Config.DiagramsCacheFolder, { recursive: true })
+    fs.mkdirSync(Config.DiagramsCacheFolder, { recursive: true })
 }
 
 function addDiagramHeader(diagram: string, header: string): string {
@@ -45,12 +52,28 @@ async function readFileContent(filename: string): Promise<string> {
     return content
 }
 
+function writeTempImage(id: string, content: string, format: string): void {
+    switch (format) {
+        case 'svg':
+            const filePathSvg = `${Config.DiagramsCacheFolder}${id}.svg`
+            fs.writeFile(filePathSvg, content, 'base64')
+            break
+        case 'png':
+            const filePathPng = `${Config.DiagramsCacheFolder}${id}.png`
+            fs.writeFile(filePathPng, content, 'base64')
+            break
+    }
+}
+
 joplin.plugins.register({
     onStart: async function () {
         const settings = new Settings()
         const plantUMLRenderer = new PlantUMLRenderer(settings)
         const view = new View(settings)
         const cache = new ObjectsCache()
+
+        // Clean and create cache folder
+        clearDiskCache()
 
         /**
          * Register Commands
@@ -61,6 +84,7 @@ joplin.plugins.register({
         joplin.settings.onChange(async (event: ChangeEvent) => {
             await settings.read(event)
             cache.clear()
+            clearDiskCache()
         })
 
         // Register command
@@ -88,21 +112,22 @@ joplin.plugins.register({
         /**
          * Messages handling
          */
-        await joplin.contentScripts.onMessage(Config.MarkdownFenceId, async (message: string) => {
+        await joplin.contentScripts.onMessage(Config.MarkdownFenceId, async (request: { id: string, content: string }) => {
             // console.log('PlantUML definition:', message)
 
             let outputHtml = ''
             try {
                 const diagramHeader = await readFileContent(settings.get('diagramHeaderFile'))
-                message = addDiagramHeader(message, diagramHeader)
-                let diagram: Diagram = cache.getCachedObject(message)
+                request.content = addDiagramHeader(request.content, diagramHeader)
+                let diagram: Diagram = cache.getCachedObject(request.content)
                 if (!diagram) {
-                    diagram = await plantUMLRenderer.execute(message)
-                    cache.addCachedObject(message, diagram)
+                    diagram = await plantUMLRenderer.execute(request.content)
+                    cache.addCachedObject(request.content, diagram)
+                    writeTempImage(request.id, diagram.blob, settings.get('renderingFormats'))
                 }
                 outputHtml += view.render(diagram)
             } catch (err) {
-                outputHtml += view.renderError(message, err)
+                outputHtml += view.renderError(request.content, err)
             }
             return outputHtml
         })

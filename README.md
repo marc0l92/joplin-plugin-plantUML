@@ -85,6 +85,7 @@ Use the plugin's options to define the rendering server and the output format.
 ## Extra hints
 - The tag name is case insensitive
 - This plugin is not compatible with WYSIWYG editor
+- In order to make the diagram visible while exporting the note, an image cache is created on disk. The cache is located at ${temp}/joplin-plantUml2-plugin/
 
 # Development
 If you want to contribute to this plugin you can find here some userful references:
