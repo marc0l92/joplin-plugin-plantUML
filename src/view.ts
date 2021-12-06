@@ -10,7 +10,9 @@ export class View {
     renderSvg(diagram: Diagram): string {
         console.log('renderImage', diagram, this._settings)
         return `<div class="flex-center">
-                    <img alt="PlantUML Diagram" src="data:image/svg+xml;base64,${diagram.blob}" data-url="${diagram.url}" data-image-url="${diagram.imageUrl}" />
+                    <div data-url="${diagram.url}" data-image-url="${diagram.imageUrl}">
+                        ${atob(diagram.blob)}
+                    </div>
                 </div>`
     }
 
@@ -23,7 +25,10 @@ export class View {
 
     renderAsciArt(diagram: Diagram): string {
         console.log('renderAsciArt', diagram, this._settings)
-        return `<div class="flex-center"><pre>${Buffer.from(diagram.blob, 'base64').toString('utf-8')}</pre></div>`
+        // Remeber to not put spaces or newlines inside the <pre> tags
+        return `<div class="flex-center">
+                    <pre data-url="${diagram.url}" data-image-url="${diagram.imageUrl}">${Buffer.from(diagram.blob, 'base64').toString('utf-8')}</pre>
+                </div>`
     }
 
     render(content: Diagram): string {

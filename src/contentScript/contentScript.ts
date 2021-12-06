@@ -28,14 +28,14 @@ export default function (context: { contentScriptId: string }) {
                 // Configure context menu
                 document.getElementById('plantuml-body-${diagramId}').addEventListener('mousedown', e => {
                     const menu = document.getElementById('plantuml-menu-${diagramId}');
-                    if(e.target && e.target.nodeName === 'IMG') {
+                    if(e.button === 2) {
                         menu.style.display = '';
                     } else {
                         menu.style.display = 'none';
                     }
                 });
                 document.getElementById('plantuml-menu-${diagramId}-copyImage').addEventListener('click', async e => {
-                    const img = document.querySelector("#plantuml-body-${diagramId} img");
+                    const img = document.querySelector("#plantuml-body-${diagramId}>div>*:first-child");
                     if(img) {
                         const response = await fetch(img.dataset.imageUrl);
                         navigator.clipboard.write([
@@ -44,7 +44,7 @@ export default function (context: { contentScriptId: string }) {
                     }
                 });
                 document.getElementById('plantuml-menu-${diagramId}-copyImageAddress').addEventListener('click', e => {
-                    const img = document.querySelector("#plantuml-body-${diagramId} img");
+                    const img = document.querySelector("#plantuml-body-${diagramId}>div>*:first-child");
                     if(img) {
                         navigator.clipboard.writeText(img.dataset.url);
                     }

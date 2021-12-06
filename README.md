@@ -68,7 +68,7 @@ Rendering example:
 # Other funcitonalities
 
 ## Context menu
-Use the context menu on the rendered diagram to copy the image or the url.
+Use the context menu (mouser right click) on the rendered diagram to copy the image or the url.
 
 ![Context Menu](./doc/context_menu.png)
 
@@ -76,6 +76,23 @@ Use the context menu on the rendered diagram to copy the image or the url.
 If you don't remember the syntax to create a PlantUML diagram you can use the templates in the tools menu
 
 ![Tools Menu](./doc/tools_menu.png)
+
+## Links to other notes
+You can create links to other notes inside the PlantUML diagram using the link `joplin://<noteid>`. This feature is only availabe when the rendering format `Vector Image (svg)` is selected.
+
+Example:
+
+    ```plantuml
+    @startmindmap
+    * Recipes
+    ** [[joplin://983de92ea39448a19e7c9a9b7c797bb0 Pasta]]
+    *** [[joplin://fdb2b25f0ec14864ba65c26a42404bb9 Lasagna]]
+    ** [[joplin://e3880d97001546c79f1dc3584cc6b30d Pizza]]
+    ** [[https://www.giallozafferano.com Other]]
+    @endmindmap
+    ```
+
+![Links example](./doc/example_links.png)
 
 ## Options
 Use the plugin's options to define the rendering server and the output format.
