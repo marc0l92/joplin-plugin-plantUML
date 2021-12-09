@@ -1,5 +1,9 @@
 import { Settings, Diagram } from "./settings"
 
+function decodeBase64(base64Str: string): string {
+    return Buffer.from(base64Str, 'base64').toString('utf-8')
+}
+
 export class View {
     private _settings: Settings
 
@@ -11,7 +15,7 @@ export class View {
         console.log('renderImage', diagram, this._settings)
         return `<div class="flex-center">
                     <div data-url="${diagram.url}" data-image-url="${diagram.imageUrl}">
-                        ${atob(diagram.blob)}
+                        ${decodeBase64(diagram.blob)}
                     </div>
                 </div>`
     }
