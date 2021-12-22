@@ -1,7 +1,14 @@
 import { Settings, Diagram } from "./settings"
 
+const pngMagicNumbers = Buffer.from('89504e47', 'hex')
+
 function decodeBase64(base64Str: string): string {
     return Buffer.from(base64Str, 'base64').toString('utf-8')
+}
+
+function isPngBlob(blobBase64: string): boolean {
+    const blob = Buffer.from(blobBase64, 'base64')
+    return blob.compare(pngMagicNumbers, 0, 4, 0, 4) == 0
 }
 
 export class View {
@@ -12,7 +19,10 @@ export class View {
     }
 
     renderSvg(diagram: Diagram): string {
-        console.log('renderImage', diagram, this._settings)
+        console.log('renderSvg', diagram, this._settings)
+        if (isPngBlob(diagram.blob)) {
+            return this.renderPng(diagram)
+        }
         return `<div class="flex-center">
                     <div data-url="${diagram.url}" data-image-url="${diagram.imageUrl}">
                         ${decodeBase64(diagram.blob)}
@@ -21,7 +31,7 @@ export class View {
     }
 
     renderPng(diagram: Diagram): string {
-        console.log('renderImage', diagram, this._settings)
+        console.log('renderPng', diagram, this._settings)
         return `<div class="flex-center">
                     <img alt="PlantUML Diagram" src="data:image/png;base64,${diagram.blob}" data-url="${diagram.url}" data-image-url="${diagram.imageUrl}" />
                 </div>`
