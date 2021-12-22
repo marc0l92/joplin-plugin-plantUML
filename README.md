@@ -2,7 +2,30 @@
 
 This plugin allows you to create UML diagrams uing the syntax defined in [https://plantuml.com](https://plantuml.com).
 
-## 1. Install the plugin
+<!-- TOC -->
+
+- [Joplin Plugin - PlantUML2](#joplin-plugin---plantuml2)
+    - [Install the plugin](#install-the-plugin)
+        - [Automatic installation](#automatic-installation)
+        - [Manual installation](#manual-installation)
+- [Markdown syntax](#markdown-syntax)
+    - [Sequence Diagram Example](#sequence-diagram-example)
+    - [MindMap Diagram Example](#mindmap-diagram-example)
+- [Other funcitonalities](#other-funcitonalities)
+    - [Context menu](#context-menu)
+    - [Menu shortcuts](#menu-shortcuts)
+    - [Links to other notes](#links-to-other-notes)
+    - [Options](#options)
+    - [Extra hints](#extra-hints)
+- [Known issues](#known-issues)
+    - [Rendering of math formulas](#rendering-of-math-formulas)
+    - [Rendering of ditaa diagrams](#rendering-of-ditaa-diagrams)
+- [Development](#development)
+
+<!-- /TOC -->
+
+
+## Install the plugin
 
 ### Automatic installation
 
@@ -17,7 +40,7 @@ Search for `PlantUML2`.
 - Open `Joplin > Options > Plugins > Install from File`
 - Select the jpl file you downloaded.
 
-# 2. Markdown syntax
+# Markdown syntax
 
 Use the markdown fence syntax to create a new PlantUML diagram.
 Inside this block you can use the syntax documented at [https://plantuml.com](https://plantuml.com).
@@ -103,6 +126,57 @@ Use the plugin's options to define the rendering server and the output format.
 - The tag name is case insensitive
 - This plugin is not compatible with WYSIWYG editor
 - In order to make the diagram visible while exporting the note, an image cache is created on disk. The cache is located at ${temp}/joplin-plantUml2-plugin/
+
+# Known issues
+
+List of plantUml rendering issues that cannot be solved because not related to this plugin but to the official server.
+
+## Rendering of math formulas
+
+**Code**: [#3](https://github.com/marc0l92/joplin-plugin-plantUML/issues/3)
+
+**Problem**: Latex math formulas cannot be rendered as svg images
+
+**Example**:
+```
+@startuml
+skinparam handwritten true
+:<math>int_0^1f(x)dx</math>;
+:<math>x^2+y_1+z_12^34</math>;
+note right
+Try also
+<math>d/dxf(x)=lim_(h->0)(f(x+h)-f(x))/h</math>
+<latex>P(y|\mathbf{x}) \mbox{ or } f(\mathbf{x})+\epsilon</latex>
+end note
+@enduml
+```
+
+**Workaround**: Modify in the plugin options the rendering mode to `Raster image (png)`
+
+
+## Rendering of ditaa diagrams
+
+**Code**: [#6](https://github.com/marc0l92/joplin-plugin-plantUML/issues/6)
+
+**Problem**: ditaa diagrams cannot be rendered as svg images
+
+**Example**:
+```
+@startuml
+ditaa
++--------+   +-------+    +-------+
+|        +---+ ditaa +--> |       |
+|  Text  |   +-------+    |diagram|
+|Document|   |!magic!|    |       |
+|     {d}|   |       |    |       |
++---+----+   +-------+    +-------+
+    :                         ^
+    |       Lots of work      |
+    +-------------------------+
+@enduml
+```
+
+**Workaround**: Modify in the plugin options the rendering mode to `Raster image (png)`
 
 # Development
 If you want to contribute to this plugin you can find here some userful references:
