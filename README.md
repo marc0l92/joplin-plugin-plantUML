@@ -19,7 +19,6 @@ This plugin allows you to create UML diagrams uing the syntax defined in [https:
     - [Extra hints](#extra-hints)
 - [Known issues](#known-issues)
     - [Rendering of math formulas](#rendering-of-math-formulas)
-    - [Rendering of ditaa diagrams](#rendering-of-ditaa-diagrams)
 - [Development](#development)
 
 <!-- /TOC -->
@@ -148,31 +147,6 @@ Try also
 <math>d/dxf(x)=lim_(h->0)(f(x+h)-f(x))/h</math>
 <latex>P(y|\mathbf{x}) \mbox{ or } f(\mathbf{x})+\epsilon</latex>
 end note
-@enduml
-```
-
-**Workaround**: Modify in the plugin options the rendering mode to `Raster image (png)`
-
-
-## Rendering of ditaa diagrams
-
-**Code**: [#6](https://github.com/marc0l92/joplin-plugin-plantUML/issues/6)
-
-**Problem**: ditaa diagrams cannot be rendered as svg images
-
-**Example**:
-```
-@startuml
-ditaa
-+--------+   +-------+    +-------+
-|        +---+ ditaa +--> |       |
-|  Text  |   +-------+    |diagram|
-|Document|   |!magic!|    |       |
-|     {d}|   |       |    |       |
-+---+----+   +-------+    +-------+
-    :                         ^
-    |       Lots of work      |
-    +-------------------------+
 @enduml
 ```
 
