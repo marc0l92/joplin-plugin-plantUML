@@ -80,7 +80,7 @@ joplin.plugins.register({
          */
 
         // Register settings
-        settings.register();
+        settings.register()
         joplin.settings.onChange(async (event: ChangeEvent) => {
             await settings.read(event)
             cache.clear()
@@ -90,7 +90,7 @@ joplin.plugins.register({
         // Register command
         await joplin.commands.register({
             name: CommandsId.Fence,
-            label: 'PlantUML: Insert PlantUML block template',
+            label: 'Insert PlantUML block template',
             iconName: 'fa fa-pencil',
             execute: async () => {
                 await joplin.commands.execute('insertText', Templates.Fence)
