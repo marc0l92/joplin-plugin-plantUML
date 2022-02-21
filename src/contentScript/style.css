@@ -86,3 +86,7 @@
 .plantUML-container .menu-option:hover {
     background: rgba(0, 0, 0, 0.1);
 }
+
+.plantUML-container .hidden {
+    display: none;
+}

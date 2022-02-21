@@ -53,16 +53,22 @@ export default function (context: { contentScriptId: string }) {
                 // Send fence content to plugin
                 webviewApi.postMessage('${context.contentScriptId}', ${pluginRequest}).then((response) => {
                    document.getElementById('plantuml-body-${diagramId}').innerHTML = response;
+                   document.getElementById('plantuml-menu-${diagramId}').style = "";
                 });
                 `.replace(/"/g, '&quot;')
 
                 return `
                 <div id="plantuml-root-${diagramId}" class="plantUML-container" tabindex="-1">
+                    <div class="hidden" style="display:none">
+                        <pre>
+\`\`\`plantuml
+${token.content}\`\`\`</pre>
+                    </div>
                     <div id="plantuml-body-${diagramId}" class="flex-center">
                         <object data="${diagramsTempDir}${diagramId}.svg" type="image/svg+xml"></object>
                         <object data="${diagramsTempDir}${diagramId}.png" type="image/png"></object>
                     </div>
-                    <div id="plantuml-menu-${diagramId}" class="menu">
+                    <div id="plantuml-menu-${diagramId}" class="menu" style="display:none">
                         <ul class="menu-options">
                             <li class="menu-option"><button id="plantuml-menu-${diagramId}-copyImage">Copy image</button></li>
                             <li class="menu-option"><button id="plantuml-menu-${diagramId}-copyImageAddress">Copy image address</button></li>

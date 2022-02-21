@@ -52,6 +52,10 @@ async function readFileContent(filename: string): Promise<string> {
     return content
 }
 
+/**
+ * This function writes the diagram image to the disk.
+ * The image will be used before the plugin starts to render the diagram or when the plugin will not be executed (like in the note PDF print).
+ */
 function writeTempImage(id: string, content: string, format: string): void {
     switch (format) {
         case 'svg':
