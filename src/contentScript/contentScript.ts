@@ -69,10 +69,10 @@ ${token.content}\`\`\`</pre>
                         <object data="${diagramsTempDir}${diagramId}.png" type="image/png"></object>
                     </div>
                     <div id="plantuml-menu-${diagramId}" class="menu" style="display:none">
-                        <ul class="menu-options">
-                            <li class="menu-option"><button id="plantuml-menu-${diagramId}-copyImage">Copy image</button></li>
-                            <li class="menu-option"><button id="plantuml-menu-${diagramId}-copyImageAddress">Copy image address</button></li>
-                        </ul>
+                        <div class="menu-options">
+                            <div class="menu-option"><input id="plantuml-menu-${diagramId}-copyImage" value="Copy image" /></div>
+                            <div class="menu-option"><input id="plantuml-menu-${diagramId}-copyImageAddress" value="Copy image address" /></div>
+                        </div>
                     </div>
                 </div>
                 <style onload="${sendContentToJoplinPlugin}"></style>
