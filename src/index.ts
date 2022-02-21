@@ -84,7 +84,7 @@ joplin.plugins.register({
          */
 
         // Register settings
-        settings.register()
+        await settings.register()
         joplin.settings.onChange(async (event: ChangeEvent) => {
             await settings.read(event)
             cache.clear()
@@ -117,7 +117,7 @@ joplin.plugins.register({
          * Messages handling
          */
         await joplin.contentScripts.onMessage(Config.MarkdownFenceId, async (request: { id: string, content: string }) => {
-            // console.log('PlantUML definition:', message)
+            // console.log('PlantUML definition:', request.content)
 
             let outputHtml = ''
             try {
