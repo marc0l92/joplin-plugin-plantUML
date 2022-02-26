@@ -25,35 +25,27 @@ export default function (context: { contentScriptId: string }) {
                 const pluginRequest = JSON.stringify({ content: token.content, id: diagramId })
 
                 const sendContentToJoplinPlugin = `
+                const diagram = null;
                 // Configure context menu
                 document.getElementById('plantuml-body-${diagramId}').addEventListener('mousedown', e => {
                     const menu = document.getElementById('plantuml-menu-${diagramId}');
-                    if(e.button === 2) {
-                        menu.style.display = '';
-                    } else {
-                        menu.style.display = 'none';
-                    }
+                    menu.style.display = e.button === 2 ? '' : 'none';
                 });
                 document.getElementById('plantuml-menu-${diagramId}-copyImage').addEventListener('click', async e => {
-                    const img = document.querySelector("#plantuml-body-${diagramId}>div>*:first-child");
-                    if(img) {
-                        const response = await fetch(img.dataset.imageUrl);
-                        navigator.clipboard.write([
-                            new ClipboardItem({ 'image/png': await response.blob() })
-                        ]);
-                    }
+                    const response = await fetch(diagram.dataset.imageUrl);
+                    navigator.clipboard.write([
+                        new ClipboardItem({ 'image/png': await response.blob() })
+                    ]);
                 });
                 document.getElementById('plantuml-menu-${diagramId}-copyImageAddress').addEventListener('click', e => {
-                    const img = document.querySelector("#plantuml-body-${diagramId}>div>*:first-child");
-                    if(img) {
-                        navigator.clipboard.writeText(img.dataset.url);
-                    }
+                    navigator.clipboard.writeText(diagram.dataset.url);
                 });
 
                 // Send fence content to plugin
                 webviewApi.postMessage('${context.contentScriptId}', ${pluginRequest}).then((response) => {
                    document.getElementById('plantuml-body-${diagramId}').innerHTML = response;
                    document.getElementById('plantuml-menu-${diagramId}').style = "";
+                   diagram = document.querySelector("#plantuml-body-${diagramId}>div>*:first-child");
                 });
                 `.replace(/"/g, '&quot;')
 
