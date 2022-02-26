@@ -1,6 +1,6 @@
 # Joplin Plugin - PlantUML2
 
-This plugin allows you to create UML diagrams uing the syntax defined in [https://plantuml.com](https://plantuml.com).
+This plugin allows you to create UML diagrams using the syntax defined in [https://plantuml.com](https://plantuml.com).
 
 <!-- TOC -->
 
@@ -100,7 +100,7 @@ If you don't remember the syntax to create a PlantUML diagram you can use the te
 ![Tools Menu](./doc/tools_menu.png)
 
 ## Links to other notes
-You can create links to other notes inside the PlantUML diagram using the link `joplin://<noteid>`. This feature is only availabe when the rendering format `Vector Image (svg)` is selected.
+You can create links to other notes inside the PlantUML diagram using the link `joplin://<noteid>`. This feature is only available when the rendering format `Vector Image (svg)` is selected.
 
 Example:
 
@@ -153,7 +153,7 @@ end note
 **Workaround**: Modify in the plugin options the rendering mode to `Raster image (png)`
 
 # Development
-If you want to contribute to this plugin you can find here some userful references:
+If you want to contribute to this plugin you can find here some useful references:
 
 - [Joplin - Getting started with plugin development](https://joplinapp.org/api/get_started/plugins/)
 - [Joplin - Plugin API reference](https://joplinapp.org/api/references/plugin_api/classes/joplin.html)
