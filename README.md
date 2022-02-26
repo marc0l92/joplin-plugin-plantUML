@@ -11,7 +11,7 @@ This plugin allows you to create UML diagrams using the syntax defined in [https
 - [Markdown syntax](#markdown-syntax)
     - [Sequence Diagram Example](#sequence-diagram-example)
     - [MindMap Diagram Example](#mindmap-diagram-example)
-- [Other funcitonalities](#other-funcitonalities)
+- [Other functionalities](#other-funcitonalities)
     - [Context menu](#context-menu)
     - [Menu shortcuts](#menu-shortcuts)
     - [Links to other notes](#links-to-other-notes)
@@ -87,7 +87,7 @@ Rendering example:
 
 ![Rendering example](./doc/example_mindmap.png)
 
-# Other funcitonalities
+# Other functionalities
 
 ## Context menu
 Use the context menu (mouser right click) on the rendered diagram to copy the image or the url.
