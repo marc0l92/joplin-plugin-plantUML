@@ -11,7 +11,7 @@ This plugin allows you to create UML diagrams using the syntax defined in [https
 - [Markdown syntax](#markdown-syntax)
     - [Sequence Diagram Example](#sequence-diagram-example)
     - [MindMap Diagram Example](#mindmap-diagram-example)
-- [Other functionalities](#other-funcitonalities)
+- [Other functionalities](#other-functionalities)
     - [Context menu](#context-menu)
     - [Menu shortcuts](#menu-shortcuts)
     - [Links to other notes](#links-to-other-notes)
@@ -23,6 +23,7 @@ This plugin allows you to create UML diagrams using the syntax defined in [https
 
 <!-- /TOC -->
 
+<a href='https://ko-fi.com/marc0l92' target='_blank'><img height='35' style='border:0px;height:46px;' src='https://az743702.vo.msecnd.net/cdn/kofi3.png' border='0' alt='Buy Me a Coffee' />
 
 ## Install the plugin
 
