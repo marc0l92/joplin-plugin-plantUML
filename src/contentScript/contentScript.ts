@@ -7,6 +7,10 @@ const diagramsTempDir = `${tmpdir}${sep}joplin-plantUml2-plugin${sep}`
 
 const fenceNameRegExp = /^plant-?uml$/i
 
+// Fix for #9: while rendering the new image display the previous one that is probably of the same size.
+// In this way the editor will not scroll.
+let previousDiagramId = null
+
 export default function (context: { contentScriptId: string }) {
     return {
         plugin: function (markdownIt: MarkdownIt, _options) {
@@ -49,7 +53,7 @@ export default function (context: { contentScriptId: string }) {
                 });
                 `.replace(/"/g, '&quot;')
 
-                return `
+                const outputHtml = `
                 <div id="plantuml-root-${diagramId}" class="plantUML-container" tabindex="-1">
                     <div class="hidden" style="display:none">
                         <pre>
@@ -57,8 +61,8 @@ export default function (context: { contentScriptId: string }) {
 ${token.content}\`\`\`</pre>
                     </div>
                     <div id="plantuml-body-${diagramId}" class="flex-center">
-                        <object data="${diagramsTempDir}${diagramId}.svg" type="image/svg+xml"></object>
-                        <object data="${diagramsTempDir}${diagramId}.png" type="image/png"></object>
+                        <object data="${diagramsTempDir}${previousDiagramId || diagramId}.svg" type="image/svg+xml"></object>
+                        <object data="${diagramsTempDir}${previousDiagramId || diagramId}.png" type="image/png"></object>
                     </div>
                     <div id="plantuml-menu-${diagramId}" class="menu" style="display:none">
                         <div class="menu-options">
@@ -69,6 +73,8 @@ ${token.content}\`\`\`</pre>
                 </div>
                 <style onload="${sendContentToJoplinPlugin}"></style>
                 `
+                previousDiagramId = diagramId
+                return outputHtml
             }
         },
         assets: function () {
