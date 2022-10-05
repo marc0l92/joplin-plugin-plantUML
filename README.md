@@ -1,5 +1,8 @@
 # Joplin Plugin - PlantUML2
 
+> WARNING: I moved my notes to Obsidian.md and I will not provide additional support to this plugin.
+> Pull request are welcome.
+
 This plugin allows you to create UML diagrams using the syntax defined in [https://plantuml.com](https://plantuml.com).
 
 <!-- TOC -->
