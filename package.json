@@ -2,7 +2,7 @@
   "name": "joplin-plugin-plantuml2",
   "version": "1.10.0",
   "scripts": {
-    "dist": "set NODE_OPTIONS=--openssl-legacy-provider && webpack --joplin-plugin-config buildMain && webpack --joplin-plugin-config buildExtraScripts && webpack --joplin-plugin-config createArchive",
+    "dist": "cross-env-shell NODE_OPTIONS=--openssl-legacy-provider \"webpack --joplin-plugin-config buildMain && webpack --joplin-plugin-config buildExtraScripts && webpack --joplin-plugin-config createArchive\"",
     "prepare": "npm run dist",
     "update": "npm install -g generator-joplin && yo joplin --update"
   },
@@ -17,11 +17,12 @@
     "@types/fs-extra": "^9.0.13",
     "@types/markdown-it": "^12.2.1",
     "@types/node": "^14.0.14",
+    "before-build-webpack": "^0.2.13",
     "chalk": "^4.1.0",
     "copy-webpack-plugin": "^6.1.0",
+    "cross-env": "^7.0.3",
     "fs-extra": "^9.0.1",
     "glob": "^7.1.6",
-    "on-build-webpack": "^0.1.0",
     "path": "^0.12.7",
     "tar": "^6.0.5",
     "ts-loader": "^7.0.5",
@@ -32,5 +33,9 @@
   },
   "dependencies": {
     "plantuml-encoder": "^1.4.0"
+  },
+  "overrides": {
+    "chokidar": "^3.5.3",
+    "glob-parent": "^5.1.2"
   }
 }
