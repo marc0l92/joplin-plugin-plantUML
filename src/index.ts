@@ -26,8 +26,7 @@ const CommandsId = {
 }
 
 function clearDiskCache(): void {
-    fs.rmdirSync(Config.DiagramsCacheFolder, { recursive: true })
-    fs.mkdirSync(Config.DiagramsCacheFolder, { recursive: true })
+    fs.emptyDirSync(Config.DiagramsCacheFolder)
 }
 
 function addDiagramHeader(diagram: string, header: string): string {
