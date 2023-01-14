@@ -11,7 +11,7 @@ const crypto = require('crypto');
 const fs = require('fs-extra');
 const chalk = require('chalk');
 const CopyPlugin = require('copy-webpack-plugin');
-const WebpackOnBuildPlugin = require('on-build-webpack');
+const WebpackBeforeBuildPlugin = require('before-build-webpack');
 const tar = require('tar');
 const glob = require('glob');
 const execSync = require('child_process').execSync;
@@ -180,7 +180,10 @@ const createArchiveConfig = {
 		filename: 'index.js',
 		path: publishDir,
 	},
-	plugins: [new WebpackOnBuildPlugin(onBuildCompleted)],
+	plugins: [new WebpackBeforeBuildPlugin(function(stats, callback) {
+		onBuildCompleted()
+		callback()
+	})],
 };
 
 function resolveExtraScriptPath(name) {
