@@ -29,7 +29,7 @@ export default function (context: { contentScriptId: string }) {
                 const pluginRequest = JSON.stringify({ content: token.content, id: diagramId })
 
                 const sendContentToJoplinPlugin = `
-                const diagram = null;
+                diagram = null;
                 // Configure context menu
                 document.getElementById('plantuml-body-${diagramId}').addEventListener('mousedown', e => {
                     const menu = document.getElementById('plantuml-menu-${diagramId}');
